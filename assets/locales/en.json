@@ -1,0 +1,18 @@
+{
+    "GLOBAL_OR": "Or",
+    "APP_NAME": "Demo App",
+    "AUTH_FULLNAME": "Fullname",
+    "AUTH_FULLNAME_REQUIRED": "Please enter fullname",
+    "AUTH_ACCOUNT_ID": "Email",
+    "AUTH_ACCOUNT_ID_REQUIRED": "Insert your email",
+    "AUTH_ACCOUNT_ID_INVALID": "Please enter valid email",
+    "AUTH_PASSWORD": "Password",
+    "AUTH_PASSWORD_REQUIRED": "Insert your password",
+    "AUTH_LOGIN": "Login",
+    "AUTH_LOGIN_GOOGLE": "Login with Google",
+    "AUTH_FORGET": "Forget password ?",
+    "AUTH_DONT_HAVE_ACC": "Don't have an account ?",
+    "AUTH_HAVE_ACC": "Already have an account ?",
+    "AUTH_REGISTER": "Register",
+    "AUTH_REGISTER_NOW": "Register Now"
+}

@@ -1,0 +1,18 @@
+{
+    "GLOBAL_OR": "Atau",
+    "APP_NAME": "Aplikasi Demo",
+    "AUTH_FULLNAME": "Nama Lengkap",
+    "AUTH_FULLNAME_REQUIRED": "Mohon masukkan nama lengkap anda",
+    "AUTH_ACCOUNT_ID": "Email",
+    "AUTH_ACCOUNT_ID_REQUIRED": "Masukkan email anda",
+    "AUTH_ACCOUNT_ID_INVALID": "Mohon masukkan email yang valid",
+    "AUTH_PASSWORD": "Kata sandi",
+    "AUTH_PASSWORD_REQUIRED": "Masukkan kata sandi anda",
+    "AUTH_LOGIN": "Masuk",
+    "AUTH_LOGIN_GOOGLE": "Masuk dengan Google",
+    "AUTH_FORGET": "Lupa kata sandi ?",
+    "AUTH_DONT_HAVE_ACC": "Belum punya akun ?",
+    "AUTH_HAVE_ACC": "Sudah punya akun ?",
+    "AUTH_REGISTER": "Daftar",
+    "AUTH_REGISTER_NOW": "Daftar Sekarang"
+}
