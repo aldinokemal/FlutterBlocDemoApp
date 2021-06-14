@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/screens/forgetpassword/bloc/forgetpassword_bloc.dart';
 import 'package:my_app/screens/login/login.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_app/screens/register/bloc/register_bloc.dart';
-import 'package:my_app/screens/register/view/register_screen.dart';
 
 import 'config/routes.dart';
 
@@ -40,6 +40,7 @@ class DemoApp extends StatelessWidget {
         providers: [
           BlocProvider<LoginBloc>(create: (BuildContext context) => LoginBloc()),
           BlocProvider<RegisterBloc>(create: (BuildContext context) => RegisterBloc()),
+          BlocProvider<ForgetpasswordBloc>(create: (BuildContext context) => ForgetpasswordBloc()),
         ],
         child: MaterialApp(
           initialRoute: '/splash',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/screens/forgetpassword/forgetpassword.dart';
 import 'package:my_app/screens/homepage/view/homepage_screen.dart';
 import 'package:my_app/screens/login/login.dart';
 import 'package:my_app/screens/register/register.dart';
@@ -8,5 +9,6 @@ var appRoutes = <String, WidgetBuilder>{
   '/splash': (context) => SplashScreenPage(),
   '/login': (context) => LoginPage(),
   '/register': (context) => RegisterPage(),
+  '/forget-password': (context) => ForgetpasswordPage(),
   '/homepage': (context) => HomepagePage(),
 };

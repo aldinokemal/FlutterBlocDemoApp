@@ -14,5 +14,7 @@
     "AUTH_DONT_HAVE_ACC": "Don't have an account ?",
     "AUTH_HAVE_ACC": "Already have an account ?",
     "AUTH_REGISTER": "Register",
-    "AUTH_REGISTER_NOW": "Register Now"
+    "AUTH_REGISTER_NOW": "Register Now",
+    "AUTH_RESET_NOW": "Reset Now",
+    "AUTH_BACK_TO": "Back to"
 }

@@ -14,5 +14,7 @@
     "AUTH_DONT_HAVE_ACC": "Belum punya akun ?",
     "AUTH_HAVE_ACC": "Sudah punya akun ?",
     "AUTH_REGISTER": "Daftar",
-    "AUTH_REGISTER_NOW": "Daftar Sekarang"
+    "AUTH_REGISTER_NOW": "Daftar Sekarang",
+    "AUTH_RESET_NOW": "Atur Ulang Sekarang",
+    "AUTH_BACK_TO": "Kembali ke"
 }

@@ -297,11 +297,17 @@ class _LoginContentState extends State<LoginContent> {
                             ],
                           )),
                       Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            tr('AUTH_FORGET'),
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          child: TextButton(
+                            onPressed: () => {Navigator.pushNamed(context, '/forget-password')},
+                            child: Text(
+                              tr('AUTH_FORGET'),
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: AppTheme.main2,
+                              ),
+                            ),
                           )),
                       _divider(),
                       SizedBox(height: 20),
