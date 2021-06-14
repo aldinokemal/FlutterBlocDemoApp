@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/config/theme.dart';
-import 'package:my_app/screens/login/login.dart';
 import 'package:my_app/screens/register/bloc/register_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:my_app/widget/bezierContainer.dart';
@@ -66,7 +65,7 @@ class _RegisterContentState extends State<RegisterContent> {
   Widget _loginAccountLabel() {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.pop(context);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20),
@@ -243,7 +242,7 @@ class _RegisterContentState extends State<RegisterContent> {
                       ),
                     ),
                   ),
-                  Positioned(top: 40, left: 0, child: _backButton()),
+                  // Positioned(top: 40, left: 0, child: _backButton()),
                 ],
               ),
             ),
