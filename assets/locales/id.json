@@ -10,6 +10,7 @@
     "AUTH_PASSWORD_REQUIRED": "Masukkan kata sandi anda",
     "AUTH_LOGIN": "Masuk",
     "AUTH_LOGIN_GOOGLE": "Masuk dengan Google",
+    "AUTH_LOGIN_APPLE": "Masuk dengan Apple",
     "AUTH_FORGET": "Lupa kata sandi ?",
     "AUTH_DONT_HAVE_ACC": "Belum punya akun ?",
     "AUTH_HAVE_ACC": "Sudah punya akun ?",

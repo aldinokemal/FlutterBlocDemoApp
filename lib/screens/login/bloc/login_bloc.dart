@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
 import 'package:my_app/repos/models/login.dart';
 import 'package:my_app/repos/repository/login_repository.dart';
@@ -17,20 +18,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
+    yield state.copyWith(status: FormzStatus.pure);
     if (event is LoginEmailChanged) {
       yield _mapEmailChangedToState(event, state);
     } else if (event is LoginPasswordChanged) {
       yield _mapPasswordChangedToState(event, state);
     } else if (event is LoginSubmitted) {
-      ApiLogin response;
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      print("process Login");
+      print(state.email + "|" + state.password);
       try {
-        response = (await LoginRepository().postLogin(state.email, state.password))!;
+        ApiLogin response;
+        response = await LoginRepository().postLogin(state.email, state.password);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", response.results!.accessToken.toString());
-        yield _processLoginChangedToState(event, state);
+        yield state.copyWith(status: FormzStatus.submissionSuccess);
       } catch (err) {
-        print(err);
-        yield _processLoginChangedToState(event, state);
+        yield state.copyWith(status: FormzStatus.submissionFailure);
       }
     }
   }
@@ -47,12 +51,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginState state,
   ) {
     return state.copyWith(password: event.password);
-  }
-
-  LoginState _processLoginChangedToState(LoginSubmitted event, LoginState state) {
-    return state.copyWith(
-      password: "",
-      email: "",
-    );
   }
 }

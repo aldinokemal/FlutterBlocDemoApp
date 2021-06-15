@@ -12,10 +12,7 @@ class LoginRepository {
         'email': email,
         'password': password,
       });
-      print(email);
-      print(password);
       final response = await Dio().post(Constants.authLogin, data: formData);
-      print(response.data['results']);
       return ApiLogin.fromJson(response.data);
     } on SocketException {
       throw FetchDataException('No Internet connection');
