@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/homepage/view/homepage_screen.dart';
 import 'package:my_app/screens/login/login.dart';
@@ -25,7 +27,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    checkIsLogin();
+    Timer(Duration(seconds: 3), () {
+      checkIsLogin();
+    });
   }
 
   @override

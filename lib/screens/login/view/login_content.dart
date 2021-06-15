@@ -19,6 +19,8 @@ class LoginContent extends StatefulWidget {
 
 class _LoginContentState extends State<LoginContent> {
   bool passwordVisible = false;
+  TextEditingController _emailControlller = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,12 @@ class _LoginContentState extends State<LoginContent> {
     }
 
     Widget _inputEmail() {
-      return BlocBuilder<LoginBloc, LoginState>(
+      return BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) {
+          if (state.email == "") {
+            _emailControlller.text = state.email;
+          }
+        },
         builder: (context, loginState) {
           return Container(
             margin: EdgeInsets.symmetric(vertical: 10),
@@ -60,7 +67,7 @@ class _LoginContentState extends State<LoginContent> {
                       }
                       return null;
                     },
-                    initialValue: loginState.email.value,
+                    controller: _emailControlller,
                     onChanged: (data) => context.read<LoginBloc>().add(LoginEmailChanged(email: data)),
                     obscureText: false,
                     decoration: InputDecoration(
@@ -76,7 +83,11 @@ class _LoginContentState extends State<LoginContent> {
     }
 
     Widget _inputPassword() {
-      return BlocBuilder<LoginBloc, LoginState>(builder: (context, loginState) {
+      return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
+        if (state.password == "") {
+          _passwordController.text = state.password;
+        }
+      }, builder: (context, state) {
         return Container(
           margin: EdgeInsets.symmetric(vertical: 10),
           child: Column(
@@ -90,6 +101,7 @@ class _LoginContentState extends State<LoginContent> {
                 height: 10,
               ),
               TextFormField(
+                  controller: _passwordController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return tr('AUTH_PASSWORD_REQUIRED');
@@ -97,7 +109,7 @@ class _LoginContentState extends State<LoginContent> {
                     return null;
                   },
                   obscureText: !passwordVisible,
-                  initialValue: loginState.password.value,
+                  // initialValue: state.password,
                   onChanged: (data) => context.read<LoginBloc>().add(LoginPasswordChanged(password: data)),
                   decoration: InputDecoration(
                       suffixIcon: new GestureDetector(
@@ -116,6 +128,48 @@ class _LoginContentState extends State<LoginContent> {
           ),
         );
       });
+
+      // return BlocBuilder<LoginBloc, LoginState>(builder: (context, loginState) {
+      //   return Container(
+      //     margin: EdgeInsets.symmetric(vertical: 10),
+      //     child: Column(
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: <Widget>[
+      //         Text(
+      //           tr('AUTH_PASSWORD'),
+      //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+      //         ),
+      //         SizedBox(
+      //           height: 10,
+      //         ),
+      //         TextFormField(
+      //             // key: UniqueKey(),
+      //             validator: (value) {
+      //               if (value == null || value.isEmpty) {
+      //                 return tr('AUTH_PASSWORD_REQUIRED');
+      //               }
+      //               return null;
+      //             },
+      //             obscureText: !passwordVisible,
+      //             initialValue: loginState.password,
+      //             onChanged: (data) => context.read<LoginBloc>().add(LoginPasswordChanged(password: data)),
+      //             decoration: InputDecoration(
+      //                 suffixIcon: new GestureDetector(
+      //                   onTap: () {
+      //                     setState(() {
+      //                       passwordVisible = !passwordVisible;
+      //                     });
+      //                   },
+      //                   child: new Icon(passwordVisible ? Icons.visibility : Icons.visibility_off),
+      //                 ),
+      //                 border: InputBorder.none,
+      //                 fillColor: Color(0xfff3f3f4),
+      //                 filled: true,
+      //                 hintText: '*****'))
+      //       ],
+      //     ),
+      //   );
+      // });
     }
 
     Widget _submitButton() {
@@ -124,7 +178,7 @@ class _LoginContentState extends State<LoginContent> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               context.read<LoginBloc>().add(const LoginSubmitted());
-              Navigator.pushReplacementNamed(context, '/homepage');
+              // Navigator.pushReplacementNamed(context, '/homepage');
             }
           },
           child: Container(
@@ -261,7 +315,7 @@ class _LoginContentState extends State<LoginContent> {
 
     return BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state.status.isSubmissionFailure) {
+          if (state.status != "") {
             EasyLoading.showInfo("Login Success");
             // ScaffoldMessenger.of(context)
             //   ..hideCurrentSnackBar()

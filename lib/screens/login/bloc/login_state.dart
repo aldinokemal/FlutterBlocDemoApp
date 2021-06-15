@@ -1,20 +1,22 @@
 part of 'login_bloc.dart';
 
 class LoginState {
+  final bool loading;
+  final String status;
+  final String email;
+  final String password;
+
   LoginState({
-    this.status = FormzStatus.pure,
-    this.email = const Email.pure(),
-    this.password = const Password.pure(),
+    this.loading = false,
+    this.status = "",
+    this.email = "",
+    this.password = "",
   });
 
-  final FormzStatus status;
-  final Email email;
-  final Password password;
-
   LoginState copyWith({
-    FormzStatus? status,
-    Email? email,
-    Password? password,
+    String? status,
+    String? email,
+    String? password,
   }) {
     return LoginState(
       status: status ?? this.status,
