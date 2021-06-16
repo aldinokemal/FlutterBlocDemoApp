@@ -197,6 +197,7 @@ class _LoginContentState extends State<LoginContent> {
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             onPressed: () {
               if (!state.status.isSubmissionInProgress) {
+                context.read<LoginBloc>().add(LoginWithGoogle());
                 EasyLoading.showInfo("Login with Google");
               }
             },
@@ -337,7 +338,7 @@ class _LoginContentState extends State<LoginContent> {
     return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
       if (state.status.isSubmissionFailure) {
         EasyLoading.dismiss();
-        EasyLoading.showError("Login gagal");
+        EasyLoading.showError(state.message);
       } else if (state.status.isSubmissionSuccess) {
         EasyLoading.dismiss();
         EasyLoading.showInfo("Login Success");
@@ -345,6 +346,8 @@ class _LoginContentState extends State<LoginContent> {
       } else if (state.status.isSubmissionInProgress) {
         EasyLoading.show(status: 'loading...');
         // EasyLoading.showProgress(100);
+      } else {
+        EasyLoading.dismiss();
       }
     }, builder: (context, state) {
       return Container(
@@ -392,7 +395,8 @@ class _LoginContentState extends State<LoginContent> {
                         )),
                     _divider(),
                     SizedBox(height: 20),
-                    _oauthButton(),
+                    _googleButton(),
+                    _appleButton(),
                     SizedBox(height: height * .055),
                     _createAccountLabel(),
                     _switchLanguage()
