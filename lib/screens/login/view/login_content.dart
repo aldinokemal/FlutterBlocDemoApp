@@ -25,7 +25,10 @@ class _LoginContentState extends State<LoginContent> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
     final _formKey = GlobalKey<FormState>();
 
     Widget _logo() {
@@ -137,7 +140,10 @@ class _LoginContentState extends State<LoginContent> {
             }
           },
           child: Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
             padding: EdgeInsets.symmetric(vertical: 15),
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -242,52 +248,58 @@ class _LoginContentState extends State<LoginContent> {
     }
 
     Widget _appleButton() {
-      return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-        return TextButton(
-            style: TextButton.styleFrom(padding: EdgeInsets.zero),
-            onPressed: () {
-              if (!state.status.isSubmissionInProgress) {
-                EasyLoading.showInfo("Login with Apple");
-              }
-            },
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), topLeft: Radius.circular(5)),
-                        ),
-                        alignment: Alignment.center,
-                        child: Image.asset('assets/images/apple.png', width: 30)
+      if (Platform.isIOS) {
+        return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+          return TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              onPressed: () {
+                if (!state.status.isSubmissionInProgress) {
+                  EasyLoading.showInfo("Login with Apple");
+                }
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(5), topLeft: Radius.circular(5)),
+                          ),
+                          alignment: Alignment.center,
+                          child: Image.asset('assets/images/apple.png', width: 30)
                         // child: Text(
                         //   'A',
                         //   style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),
                         // ),
-                        ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black87,
-                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(5), topRight: Radius.circular(5)),
                       ),
-                      alignment: Alignment.center,
-                      child: Text(tr('AUTH_LOGIN_APPLE'),
-                          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400)),
                     ),
-                  ),
-                ],
-              ),
-            ));
-      });
+                    Expanded(
+                      flex: 5,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black87,
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(5), topRight: Radius.circular(5)),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(tr('AUTH_LOGIN_APPLE'),
+                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400)),
+                      ),
+                    ),
+                  ],
+                ),
+              ));
+        });
+      } else {
+        return SizedBox();
+      }
     }
 
     Widget _createAccountLabel() {
@@ -327,13 +339,16 @@ class _LoginContentState extends State<LoginContent> {
       return Padding(padding: EdgeInsets.symmetric(vertical: 10), child: ChangeLanguage());
     }
 
-    Widget _oauthButton() {
-      if (Platform.isAndroid) {
-        return _googleButton();
-      } else {
-        return _appleButton();
-      }
-    }
+    // List<Widget> _oauthButton() {
+    //   var list = new List<Widget>.empty();
+    //   if (Platform.isAndroid) {
+    //     list.add(_googleButton());
+    //   } else {
+    //     // return _appleButton();
+    //     list.add(_appleButton());
+    //   }
+    //   return list;
+    // }
 
     return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
       if (state.status.isSubmissionFailure) {
@@ -354,7 +369,10 @@ class _LoginContentState extends State<LoginContent> {
         height: height,
         child: Stack(
           children: <Widget>[
-            Positioned(top: -height * .15, right: -MediaQuery.of(context).size.width * .4, child: BezierContainer()),
+            Positioned(top: -height * .15, right: -MediaQuery
+                .of(context)
+                .size
+                .width * .4, child: BezierContainer()),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
@@ -380,7 +398,8 @@ class _LoginContentState extends State<LoginContent> {
                     Container(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () => {
+                          onPressed: () =>
+                          {
                             if (!state.status.isSubmissionInProgress)
                               {Navigator.pushNamed(context, '/forget-password')},
                           },
@@ -396,6 +415,7 @@ class _LoginContentState extends State<LoginContent> {
                     _divider(),
                     SizedBox(height: 20),
                     _googleButton(),
+                    SizedBox(height: 10),
                     _appleButton(),
                     SizedBox(height: height * .055),
                     _createAccountLabel(),
