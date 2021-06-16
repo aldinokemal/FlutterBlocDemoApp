@@ -20,7 +20,7 @@ class LoginContent extends StatefulWidget {
 
 class _LoginContentState extends State<LoginContent> {
   bool passwordVisible = false;
-  TextEditingController _emailControlller = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -39,11 +39,7 @@ class _LoginContentState extends State<LoginContent> {
 
     Widget _inputEmail() {
       return BlocConsumer<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state.email == "") {
-            _passwordController.text = state.email;
-          }
-        },
+        listener: (context, state) {},
         builder: (context, loginState) {
           return Container(
             margin: EdgeInsets.symmetric(vertical: 10),
@@ -68,7 +64,7 @@ class _LoginContentState extends State<LoginContent> {
                       }
                       return null;
                     },
-                    controller: _emailControlller,
+                    controller: _emailController,
                     onChanged: (data) => context.read<LoginBloc>().add(LoginEmailChanged(email: data)),
                     obscureText: false,
                     decoration: InputDecoration(
@@ -100,29 +96,31 @@ class _LoginContentState extends State<LoginContent> {
                     height: 10,
                   ),
                   TextFormField(
-                      controller: _passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return tr('AUTH_PASSWORD_REQUIRED');
-                        }
-                        return null;
-                      },
-                      obscureText: !passwordVisible,
-                      // initialValue: state.password,
-                      onChanged: (data) => context.read<LoginBloc>().add(LoginPasswordChanged(password: data)),
-                      decoration: InputDecoration(
-                          suffixIcon: new GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                passwordVisible = !passwordVisible;
-                              });
-                            },
-                            child: new Icon(passwordVisible ? Icons.visibility : Icons.visibility_off),
-                          ),
-                          border: InputBorder.none,
-                          fillColor: Color(0xfff3f3f4),
-                          filled: true,
-                          hintText: '*****'))
+                    controller: _passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return tr('AUTH_PASSWORD_REQUIRED');
+                      }
+                      return null;
+                    },
+                    obscureText: !passwordVisible,
+                    // initialValue: state.password,
+                    onChanged: (data) => context.read<LoginBloc>().add(LoginPasswordChanged(password: data)),
+                    decoration: InputDecoration(
+                      suffixIcon: new GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        child: new Icon(passwordVisible ? Icons.visibility : Icons.visibility_off),
+                      ),
+                      border: InputBorder.none,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true,
+                      hintText: '*****',
+                    ),
+                  ),
                 ],
               ),
             );
@@ -300,7 +298,7 @@ class _LoginContentState extends State<LoginContent> {
             }
           },
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
+            // margin: EdgeInsets.symmetric(vertical: 20),
             padding: EdgeInsets.all(15),
             alignment: Alignment.bottomCenter,
             child: Row(
@@ -357,16 +355,17 @@ class _LoginContentState extends State<LoginContent> {
                     _logo(),
                     SizedBox(height: 20),
                     Form(
-                        key: _formKey,
-                        child: Column(
-                          children: <Widget>[
-                            _inputEmail(),
-                            _inputPassword(),
-                            // _emailPasswordWidget(),
-                            SizedBox(height: 20),
-                            _submitButton(),
-                          ],
-                        )),
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          _inputEmail(),
+                          _inputPassword(),
+                          // _emailPasswordWidget(),
+                          SizedBox(height: 20),
+                          _submitButton(),
+                        ],
+                      ),
+                    ),
                     Container(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -388,7 +387,7 @@ class _LoginContentState extends State<LoginContent> {
                     _googleButton(),
                     SizedBox(height: 10),
                     _appleButton(),
-                    // SizedBox(height: height * .055),
+                    SizedBox(height: height * .055),
                     _createAccountLabel(),
                     _switchLanguage()
                   ],

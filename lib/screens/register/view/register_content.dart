@@ -14,6 +14,9 @@ class RegisterContent extends StatefulWidget {
 }
 
 class _RegisterContentState extends State<RegisterContent> {
+  bool passwordVisible = false;
+  final _formKey = GlobalKey<FormState>();
+
   Widget _logo() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15),
@@ -44,22 +47,29 @@ class _RegisterContentState extends State<RegisterContent> {
   }
 
   Widget _submitButton() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [AppTheme.main1, AppTheme.main2])),
-      child: Text(
-        tr('AUTH_REGISTER_NOW'),
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
-    );
+    return InkWell(
+        onTap: () {
+          if (_formKey.currentState!.validate()) {
+            context.read<RegisterBloc>().add(const RegisterSubmitted());
+            // Navigator.pushReplacementNamed(context, '/homepage');
+          }
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(vertical: 15),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [AppTheme.main1, AppTheme.main2])),
+          child: Text(
+            tr('AUTH_REGISTER_NOW'),
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+        ));
   }
 
   Widget _loginAccountLabel() {
@@ -68,7 +78,7 @@ class _RegisterContentState extends State<RegisterContent> {
         Navigator.pop(context);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20),
+        // margin: EdgeInsets.symmetric(vertical: 20),
         padding: EdgeInsets.all(15),
         alignment: Alignment.bottomCenter,
         child: Row(
@@ -92,7 +102,7 @@ class _RegisterContentState extends State<RegisterContent> {
   }
 
   Widget _inputFullname() {
-    return BlocBuilder<RegisterBloc, RegisterState>(builder: (context, registerState) {
+    return BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         child: Column(
@@ -113,7 +123,7 @@ class _RegisterContentState extends State<RegisterContent> {
                   return null;
                 },
                 obscureText: false,
-                initialValue: registerState.fullname,
+                // initialValue: state.fullname,
                 onChanged: (data) => context.read<RegisterBloc>().add(RegisterFullnameChanged(fullname: data)),
                 decoration: InputDecoration(
                     border: InputBorder.none, fillColor: Color(0xfff3f3f4), filled: true, hintText: '*****'))
@@ -125,7 +135,7 @@ class _RegisterContentState extends State<RegisterContent> {
 
   Widget _inputEmail() {
     return BlocBuilder<RegisterBloc, RegisterState>(
-      builder: (context, registerState) {
+      builder: (context, state) {
         return Container(
           margin: EdgeInsets.symmetric(vertical: 10),
           child: Column(
@@ -149,7 +159,7 @@ class _RegisterContentState extends State<RegisterContent> {
                     }
                     return null;
                   },
-                  initialValue: registerState.email,
+                  // initialValue: state.email,
                   onChanged: (data) => context.read<RegisterBloc>().add(RegisterEmailChanged(email: data)),
                   obscureText: false,
                   decoration: InputDecoration(
@@ -165,7 +175,7 @@ class _RegisterContentState extends State<RegisterContent> {
   }
 
   Widget _inputPassword() {
-    return BlocBuilder<RegisterBloc, RegisterState>(builder: (context, registerState) {
+    return BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         child: Column(
@@ -179,17 +189,30 @@ class _RegisterContentState extends State<RegisterContent> {
               height: 10,
             ),
             TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return tr('AUTH_PASSWORD_REQUIRED');
-                  }
-                  return null;
-                },
-                obscureText: true,
-                initialValue: registerState.password,
-                onChanged: (data) => context.read<RegisterBloc>().add(RegisterPasswordChanged(password: data)),
-                decoration: InputDecoration(
-                    border: InputBorder.none, fillColor: Color(0xfff3f3f4), filled: true, hintText: '*****'))
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return tr('AUTH_PASSWORD_REQUIRED');
+                }
+                return null;
+              },
+              obscureText: !passwordVisible,
+              // initialValue: state.password,
+              onChanged: (data) => context.read<RegisterBloc>().add(RegisterPasswordChanged(password: data)),
+              decoration: InputDecoration(
+                suffixIcon: new GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      passwordVisible = !passwordVisible;
+                    });
+                  },
+                  child: new Icon(passwordVisible ? Icons.visibility : Icons.visibility_off),
+                ),
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true,
+                hintText: '*****',
+              ),
+            ),
           ],
         ),
       );
@@ -228,13 +251,18 @@ class _RegisterContentState extends State<RegisterContent> {
                           SizedBox(
                             height: 50,
                           ),
-                          _inputFullname(),
-                          _inputEmail(),
-                          _inputPassword(),
-                          SizedBox(
-                            height: 20,
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                _inputFullname(),
+                                _inputEmail(),
+                                _inputPassword(),
+                                SizedBox(height: 20),
+                                _submitButton(),
+                              ],
+                            ),
                           ),
-                          _submitButton(),
                           SizedBox(height: height * .055),
                           _loginAccountLabel(),
                           _switchLanguage()
