@@ -1,6 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/screens/login/bloc/login_bloc.dart';
@@ -326,6 +326,14 @@ class _LoginContentState extends State<LoginContent> {
       return Padding(padding: EdgeInsets.symmetric(vertical: 10), child: ChangeLanguage());
     }
 
+    Widget _oauthButton() {
+      if (Platform.isAndroid) {
+        return _googleButton();
+      } else {
+        return _appleButton();
+      }
+    }
+
     return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
       if (state.status.isSubmissionFailure) {
         EasyLoading.dismiss();
@@ -384,9 +392,7 @@ class _LoginContentState extends State<LoginContent> {
                         )),
                     _divider(),
                     SizedBox(height: 20),
-                    _googleButton(),
-                    SizedBox(height: 10),
-                    _appleButton(),
+                    _oauthButton(),
                     SizedBox(height: height * .055),
                     _createAccountLabel(),
                     _switchLanguage()

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/config/theme.dart';
 import 'package:my_app/screens/register/bloc/register_bloc.dart';
@@ -22,26 +24,6 @@ class _RegisterContentState extends State<RegisterContent> {
       padding: EdgeInsets.symmetric(vertical: 15),
       child: Center(
         child: Container(width: 100, height: 100, child: Image.asset('assets/images/app-logo.png')),
-      ),
-    );
-  }
-
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            ),
-            Text('Back', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
-          ],
-        ),
       ),
     );
   }
@@ -226,7 +208,18 @@ class _RegisterContentState extends State<RegisterContent> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    return BlocBuilder<RegisterBloc, RegisterState>(
+    return BlocConsumer<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          if (state.status.isSubmissionFailure) {
+            EasyLoading.dismiss();
+            EasyLoading.showError(state.message);
+          } else if (state.status.isSubmissionSuccess) {
+            EasyLoading.dismiss();
+            EasyLoading.showInfo(state.message);
+          } else if (state.status.isSubmissionInProgress) {
+            EasyLoading.show(status: 'loading...');
+          }
+        },
         buildWhen: (previous, current) => previous.password != current.password,
         builder: (context, state) {
           return (Scaffold(

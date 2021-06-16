@@ -8,10 +8,7 @@ import 'package:dio/dio.dart';
 class LoginRepository {
   Future<dynamic> postLogin(String email, String password) async {
     try {
-      var formData = FormData.fromMap({
-        'email': email,
-        'password': password,
-      });
+      var formData = FormData.fromMap({'email': email, 'password': password});
       final response = await Dio().post(Constants.authLogin, data: formData);
       return ApiLogin.fromJson(response.data);
     } on SocketException {
